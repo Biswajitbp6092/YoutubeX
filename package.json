@@ -1,0 +1,20 @@
+{
+  "name": "projectsbackend",
+  "version": "1.0.0",
+  "description": "frist backend larning project",
+  "keywords": [
+    "javascript",
+    "express",
+    "nodejs"
+  ],
+  "license": "ISC",
+  "author": "Biswajit Biswas",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

@@ -13,7 +13,6 @@ const connectDB = async () => {
         console.log("database connection Failed ", error);
         process.exit(1);
     }
-
 }
 
 export default connectDB;

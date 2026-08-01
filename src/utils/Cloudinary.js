@@ -16,7 +16,8 @@ const uploadOnCloudinary= async(localFilePath)=>{
             folder:"VideoX"
         })
 
-        console.log("File upload successfully", response.url)
+        // console.log("File upload successfully", response.url)
+         fs.unlinkSync(localFilePath)  
 
         return response;
         

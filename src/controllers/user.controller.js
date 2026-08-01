@@ -7,20 +7,25 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 export const registerUser = asyncHandler(async (req, res) => {
     const { userName, email, fullName, password } = req.body;
 
-    if ([userName, email, fullName, password].some((field) => field.trim() === "")) {
+    if ([userName, email, fullName, password].some((field) => field?.trim() === "")) {
         throw new ApiError(400, "All field are required")
     }
 
-    const existedUser = User.findOne({
+    const existedUser = await User.findOne({
         $or: [{ userName }, { email }]
     })
 
     if (existedUser) {
-        throw new ApiError(408, "user name and email already exites")
+        throw new ApiError(409, "Username or email already exists")
     }
 
-    const avatatLocalPath = req.files?.avatar[0]?.path;
-    const coverImageLocalPatch = req.files?.coverImage[0]?.path;
+    const avatatLocalPath = req.files?.avatar?.[0]?.path;
+    // const coverImageLocalPatch = req.files?.coverImage?.[0]?.path;
+
+    let coverImageLocalPatch;
+    if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length>0){
+        coverImageLocalPatch= req.files.coverImage[0].path
+    }
 
     if (!avatatLocalPath) {
         throw new ApiError(400, "avatar is required")
@@ -34,7 +39,7 @@ export const registerUser = asyncHandler(async (req, res) => {
     }
 
     const user = await User.create({
-        username: username.toLowerCase(),
+        userName: userName.toLowerCase(),
         email,
         fullName,
         avatar: avatar.url,
